@@ -1,0 +1,111 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FilmDiary"
+             x:Class="FilmDiary.MainPage"
+             Shell.NavBarIsVisible="False"
+             Padding="0,30,0,0"
+             BackgroundColor="#1A1A1D">
+
+    <StackLayout Padding="20">
+
+        <Label Text="Movie Diary" FontSize="Large" HorizontalOptions="Center" Margin="0,0,0,20" />
+
+        <VerticalStackLayout Padding="10" Spacing="10" HorizontalOptions="FillAndExpand">
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Film Title" 
+                       FontSize="Medium" 
+                       HorizontalOptions="Start" 
+                       TextColor="White" />
+                <Entry Text="{Binding Title}"
+                       BackgroundColor="#3B1C32"
+                       Placeholder="Enter film title" 
+                       HorizontalOptions="FillAndExpand" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Rating 1-10" 
+                       FontSize="Medium" 
+                       HorizontalOptions="Start" 
+                       TextColor="White" />
+                <Entry Text="{Binding Rating}" 
+                       Placeholder="Enter rating" 
+                       Keyboard="Numeric" 
+                       BackgroundColor="#3B1C32"
+                       HorizontalOptions="FillAndExpand" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+
+        <Button Text="Add Film" 
+                Command="{Binding AddFilmCommand}" 
+                BackgroundColor="#6A1E55" 
+                BorderColor="#3B1C32"
+                BorderWidth="1"
+                TextColor="White" 
+                FontSize="Default" 
+                CornerRadius="10" 
+                HorizontalOptions="FillAndExpand" 
+                MaximumWidthRequest="300"
+                Margin="0,15,0,30" />
+
+        <CollectionView ItemsSource="{Binding Films}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#2D2D30" CornerRadius="5" Margin="10,20" Padding="5">
+                        <Grid ColumnDefinitions="*,Auto,Auto,Auto" RowDefinitions="Auto">
+                            <!-- Movie Name -->
+                            <Label Text="{Binding Title}" 
+                                   FontSize="Medium" 
+                                   TextColor="White" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="Start" 
+                                   Margin="0,0,10,0" />
+
+                            <!-- Rating with Left Border -->
+                            <Grid ColumnDefinitions="Auto,*" Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
+                                <!-- Left Border -->
+                                <BoxView BackgroundColor="White" WidthRequest="2" HorizontalOptions="Start" />
+                                <!-- Rating Content -->
+                                <Label Text="{Binding Rating}" 
+                                       FontSize="Medium" 
+                                       TextColor="White" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       Margin="20,0,0,0"
+                                       MinimumWidthRequest="80"/>
+                            </Grid>
+
+                            <!-- Edit Score Button -->
+                            <Button Text="Edit Rating" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:FilmsViewModel}}, Path=EditFilmCommand}" 
+                                    CommandParameter="{Binding .}" 
+                                    BackgroundColor="#A64D79" 
+                                    TextColor="White" 
+                                    FontSize="Small"
+                                    CornerRadius="15" 
+                                    Padding="10,5" 
+                                    Grid.Row="0" Grid.Column="2" 
+                                    WidthRequest="120" 
+                                    HeightRequest="40" 
+                                    Margin="10,0,0,0" />
+
+                            <!-- Delete Button -->
+                            <Button Text="Delete" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:FilmsViewModel}}, Path=DeleteFilmCommand}" 
+                                    CommandParameter="{Binding .}" 
+                                    BackgroundColor="#6A1E55" 
+                                    TextColor="White" 
+                                    CornerRadius="15" 
+                                    Grid.Row="0" Grid.Column="3" 
+                                    WidthRequest="120" 
+                                    HeightRequest="40" 
+                                    Margin="10,0,0,0" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </StackLayout>
+</ContentPage>
