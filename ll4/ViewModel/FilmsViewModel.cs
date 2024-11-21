@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace FilmDiary;
 
@@ -20,12 +21,16 @@ public partial class FilmsViewModel : ObservableObject
 
     public ICommand AddFilmCommand { get; }
     public ICommand DeleteFilmCommand { get; }
+    public ICommand DecreaseRatingCommand { get; }
+    public ICommand IncreaseRatingCommand { get; }
 
     public FilmsViewModel(IFilmService filmService)
     {
         _filmService = filmService;
         AddFilmCommand = new RelayCommand(AddFilm);
         DeleteFilmCommand = new RelayCommand<Film>(DeleteFilm);
+        DecreaseRatingCommand = new RelayCommand<Film>(DecreaseRating);
+        IncreaseRatingCommand = new RelayCommand<Film>(IncreaseRating);
         LoadFilms();
     }
 
@@ -58,8 +63,25 @@ public partial class FilmsViewModel : ObservableObject
     {
         if (film != null)
         {
-            await _filmService.DeleteFilmAsync(film);
-            
+            await _filmService.DeleteFilmAsync(film);  
+        }
+    }
+
+    private async void IncreaseRating(Film film)
+    {
+        if (film != null && film.Rating < 10)
+        {
+            film.Rating++;
+            await _filmService.UpdateFilmAsync(film);
+        }
+    }
+
+    private async void DecreaseRating(Film film)
+    {
+        if (film != null && film.Rating > 1)
+        {
+            film.Rating--;
+            await _filmService.UpdateFilmAsync(film);
         }
     }
 }

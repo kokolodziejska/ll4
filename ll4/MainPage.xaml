@@ -63,32 +63,36 @@
                                    Margin="0,0,10,0" />
 
                             <!-- Rating with Left Border -->
-                            <Grid ColumnDefinitions="Auto,*" Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto" Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
                                 <!-- Left Border -->
-                                <BoxView BackgroundColor="White" WidthRequest="2" HorizontalOptions="Start" />
+                                <BoxView BackgroundColor="White" WidthRequest="2" HorizontalOptions="Start"/>
                                 <!-- Rating Content -->
-                                <Label Text="{Binding Rating}" 
+                                <Label Text="{Binding Rating, Mode=TwoWay}" 
                                        FontSize="Medium" 
                                        TextColor="White" 
                                        VerticalOptions="Center" 
-                                       HorizontalOptions="Start" 
-                                       Margin="20,0,0,0"
-                                       MinimumWidthRequest="80"/>
+                                       HorizontalOptions="Center"
+                                       Margin="20,0,10,0"
+                                       Grid.Column="1"/>
+                                <Button Text="-" 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:FilmsViewModel}}, Path=DecreaseRatingCommand}}" 
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#6A1E55" 
+                                        TextColor="White" 
+                                        WidthRequest="50" 
+                                        HeightRequest="40" 
+                                        CornerRadius="20"
+                                        Grid.Column="2"/>
+                                <Button Text="+" 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:FilmsViewModel}}, Path=IncreaseRatingCommand}" 
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#6A1E55" 
+                                        TextColor="White" 
+                                        WidthRequest="50" 
+                                        HeightRequest="40" 
+                                        CornerRadius="20"
+                                        Grid.Column="3"/>
                             </Grid>
-
-                            <!-- Edit Score Button -->
-                            <Button Text="Edit Rating" 
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:FilmsViewModel}}, Path=EditFilmCommand}" 
-                                    CommandParameter="{Binding .}" 
-                                    BackgroundColor="#A64D79" 
-                                    TextColor="White" 
-                                    FontSize="Small"
-                                    CornerRadius="15" 
-                                    Padding="10,5" 
-                                    Grid.Row="0" Grid.Column="2" 
-                                    WidthRequest="120" 
-                                    HeightRequest="40" 
-                                    Margin="10,0,0,0" />
 
                             <!-- Delete Button -->
                             <Button Text="Delete" 
