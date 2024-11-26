@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Diagnostics;
+using Shared;
 
 namespace FilmDiary;
 
@@ -34,17 +35,17 @@ public partial class FilmsViewModel : ObservableObject
         LoadFilms();
     }
 
-    private async void LoadFilms()
+    private void LoadFilms()
     {
-        Films = await _filmService.GetFilmsAsync();
+        Films = _filmService.GetFilms();
     }
 
-    private async void AddFilm()
+    private void AddFilm()
     {
         if (!string.IsNullOrWhiteSpace(Title) && Rating > 0 && Rating <= 10)
         {
             var newFilm = new Film { Title = Title, Rating = Rating };
-            await _filmService.AddFilmAsync(newFilm);
+            _filmService.AddFilm(newFilm);
             
             Title = string.Empty;
             Rating = 0;
@@ -55,33 +56,33 @@ public partial class FilmsViewModel : ObservableObject
         }
         else if (Rating < 1 || Rating > 10)
         {
-            await Application.Current.MainPage.DisplayAlert("Score out of range", "Please enter a valid title and a rating between 1 and 10.", "OK");
+            Application.Current.MainPage.DisplayAlert("Score out of range", "Please enter a valid title and a rating between 1 and 10.", "OK");
         }
     }
 
-    private async void DeleteFilm(Film film)
+    private void DeleteFilm(Film film)
     {
         if (film != null)
         {
-            await _filmService.DeleteFilmAsync(film);  
+            _filmService.DeleteFilm(film);  
         }
     }
 
-    private async void IncreaseRating(Film film)
+    private void IncreaseRating(Film film)
     {
         if (film != null && film.Rating < 10)
         {
             film.Rating++;
-            await _filmService.UpdateFilmAsync(film);
+            _filmService.UpdateFilms();
         }
     }
 
-    private async void DecreaseRating(Film film)
+    private void DecreaseRating(Film film)
     {
         if (film != null && film.Rating > 1)
         {
             film.Rating--;
-            await _filmService.UpdateFilmAsync(film);
+            _filmService.UpdateFilms();
         }
     }
 }
