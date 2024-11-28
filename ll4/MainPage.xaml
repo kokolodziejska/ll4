@@ -8,7 +8,7 @@
 
     <StackLayout Padding="20">
 
-        <Label Text="Movie Diary" FontSize="Large" HorizontalOptions="Center" Margin="0,0,0,20" />
+        <Label Text="Movie Diary" FontSize="Large" HorizontalOptions="Center" Margin="0,0,0,20" TextColor="White" />
 
         <VerticalStackLayout Padding="10" Spacing="10" HorizontalOptions="FillAndExpand">
 
@@ -31,6 +31,7 @@
                 <Entry Text="{Binding Rating}" 
                        Placeholder="Enter rating" 
                        Keyboard="Numeric" 
+                        TextColor="White"
                        BackgroundColor="#3B1C32"
                        HorizontalOptions="FillAndExpand" />
             </VerticalStackLayout>

@@ -50,7 +50,7 @@ public partial class FilmsViewModel : ObservableObject
             Rating = 0;
 
             // Notify changes to UI to update input fields after adding the film
-            OnPropertyChanged(nameof(Title));
+            OnPropertyChanged("Title");
             OnPropertyChanged(nameof(Rating));
         }
         else if (Rating < 1 || Rating > 10)
