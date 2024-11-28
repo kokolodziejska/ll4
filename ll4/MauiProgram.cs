@@ -23,6 +23,11 @@ public static class MauiProgram
             return new MainPage(viewModel);
         });
 
+        builder.Services.AddHttpClient<FilmService>(client =>
+        {
+            client.BaseAddress = new Uri("http://localhost:5018/api/");
+        });
+
         return builder.Build();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace FilmDiary;
+﻿namespace Shared;
 
 public class Film
 {

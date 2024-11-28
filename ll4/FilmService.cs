@@ -1,51 +1,72 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using Shared;
 
 namespace FilmDiary;
 
 public class FilmService : IFilmService
 {
-    private ObservableCollection<Film> _films = new ObservableCollection<Film>();
+    private readonly HttpClient _httpClient;
+
+    public FilmService(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
 
     public async Task<ObservableCollection<Film>> GetFilmsAsync()
     {
-        await Task.Delay(1);
-        return _films;
+        try
+        {
+            var films = await _httpClient.GetFromJsonAsync<IEnumerable<Film>>("api/films");
+            return new ObservableCollection<Film>(films ?? Enumerable.Empty<Film>());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in FilmService.GetFilmsAsync: {ex.Message}");
+            return new ObservableCollection<Film>();
+        }
     }
 
     public async Task AddFilmAsync(Film film)
     {
-        await Task.Delay(1);
-        _films.Add(film);
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/films", film);
+            response.EnsureSuccessStatusCode();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in FilmService.AddFilmAsync: {ex.Message}");
+        }
     }
 
     public async Task UpdateFilmAsync(Film film)
     {
-        /*var oldFilm = _films.FirstOrDefault(f => f.Title == film.Title);
-        Debug.WriteLine(film.Rating);
-        if (oldFilm != null)
+        try
         {
-            oldFilm.Rating = film.Rating;
-        }*/
-        await Task.Delay(1);
-        ObservableCollection<Film> copy = new ObservableCollection<Film>();
-        foreach (Film originalFilm in _films)
-        {
-            copy.Add(new Film { Title = originalFilm.Title, Rating = originalFilm.Rating });
+            var response = await _httpClient.PutAsJsonAsync($"api/films/{film.Title}", film);
+            response.EnsureSuccessStatusCode();
         }
-        while(_films.Count > 0)
+        catch (Exception ex)
         {
-            _films.RemoveAt(0);
-        }
-        foreach (Film copyFilm in copy)
-        {
-            _films.Add(copyFilm);
+            Console.WriteLine($"Error in FilmService.UpdateFilmAsync: {ex.Message}");
         }
     }
 
     public async Task DeleteFilmAsync(Film film)
     {
-        await Task.Delay(1);
-        _films.Remove(film);
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/films/{film.Title}");
+            response.EnsureSuccessStatusCode();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in FilmService.DeleteFilmAsync: {ex.Message}");
+        }
     }
 }
