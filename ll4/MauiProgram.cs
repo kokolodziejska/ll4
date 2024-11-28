@@ -1,4 +1,11 @@
 ﻿using ll4;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Shared;
+using System;
+using System.Net.Http;
+
+
 
 namespace FilmDiary;
 
@@ -23,7 +30,15 @@ public static class MauiProgram
             return new MainPage(viewModel);
         });
 
-        builder.Services.AddHttpClient<FilmService>(client =>
+        builder.Services.AddLogging(logging =>
+        {
+            logging.AddConsole();
+            logging.AddDebug();
+        });
+
+
+
+        builder.Services.AddHttpClient<IFilmService, FilmService>(client =>
         {
             client.BaseAddress = new Uri("http://localhost:5018/api/");
         });
