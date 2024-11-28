@@ -50,67 +50,56 @@
                 MaximumWidthRequest="300"
                 Margin="0,15,0,30" />
 
-        <CollectionView ItemsSource="{Binding Films}">
+        <CollectionView ItemsSource="{Binding Films}" ItemSizingStrategy="MeasureFirstItem" x:Name="FilmsCollection">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="#2D2D30" CornerRadius="5" Margin="10,20" Padding="5">
-                        <Grid ColumnDefinitions="*,Auto,Auto,Auto" RowDefinitions="Auto">
-                            <!-- Movie Name -->
+                    <Frame BackgroundColor="#2D2D30" CornerRadius="5" Margin="10,5" Padding="10" HasShadow="False">
+                        <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
                             <Label Text="{Binding Title}" 
+                               FontSize="Medium" 
+                               TextColor="White" 
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Start"
+                               Grid.Column="0" />
+
+                            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center">
+                                <BoxView BackgroundColor="White" WidthRequest="2" />
+                                <Label Text="{Binding Rating, Mode=TwoWay}" 
                                    FontSize="Medium" 
                                    TextColor="White" 
-                                   VerticalOptions="Center" 
-                                   HorizontalOptions="Start" 
-                                   Margin="0,0,10,0" />
-
-                            <!-- Rating with Left Border -->
-                            <Grid ColumnDefinitions="Auto,*,Auto,Auto" Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
-                                <!-- Left Border -->
-                                <BoxView BackgroundColor="White" WidthRequest="2" HorizontalOptions="Start"/>
-                                <!-- Rating Content -->
-                                <Label Text="{Binding Rating, Mode=TwoWay}" 
-                                       FontSize="Medium" 
-                                       TextColor="White" 
-                                       VerticalOptions="Center" 
-                                       HorizontalOptions="Center"
-                                       Margin="20,0,10,0"
-                                       Grid.Column="1"/>
+                                   Margin="10,0,10,0" 
+                                   VerticalOptions="Center"
+                                   Grid.Column="1" />
                                 <Button Text="-" 
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:FilmsViewModel}}, Path=DecreaseRatingCommand}" 
-                                        CommandParameter="{Binding .}"
-                                        BackgroundColor="#6A1E55" 
-                                        TextColor="White" 
-                                        WidthRequest="50" 
-                                        HeightRequest="40" 
-                                        CornerRadius="20"
-                                        Grid.Column="2"/>
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:FilmsViewModel}}, Path=DecreaseRatingCommand}" 
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#6A1E55" 
+                                    TextColor="White" 
+                                    WidthRequest="40" 
+                                    CornerRadius="20"
+                                    Grid.Column="2"/>
                                 <Button Text="+" 
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:FilmsViewModel}}, Path=IncreaseRatingCommand}" 
-                                        CommandParameter="{Binding .}"
-                                        BackgroundColor="#6A1E55" 
-                                        TextColor="White" 
-                                        WidthRequest="50" 
-                                        HeightRequest="40" 
-                                        CornerRadius="20"
-                                        Grid.Column="3"/>
-                            </Grid>
-
-                            <!-- Delete Button -->
-                            <Button Text="Delete" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:FilmsViewModel}}, Path=IncreaseRatingCommand}" 
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#6A1E55" 
+                                    TextColor="White" 
+                                    WidthRequest="40" 
+                                    CornerRadius="20"
+                                    Grid.Column="3"/>
+                                <Button Text="Delete" 
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:FilmsViewModel}}, Path=DeleteFilmCommand}" 
                                     CommandParameter="{Binding .}" 
                                     BackgroundColor="#6A1E55" 
                                     TextColor="White" 
-                                    CornerRadius="15" 
-                                    Grid.Row="0" Grid.Column="3" 
-                                    WidthRequest="120" 
+                                    WidthRequest="80" 
                                     HeightRequest="40" 
-                                    Margin="10,0,0,0" />
+                                    CornerRadius="20"
+                                    Grid.Column="4"/>
+                            </Grid>
                         </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
     </StackLayout>
 </ContentPage>

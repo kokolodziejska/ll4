@@ -1,4 +1,6 @@
-﻿namespace FilmDiary;
+﻿using Microsoft.Maui.Controls;
+
+namespace FilmDiary;
 
 public partial class MainPage : ContentPage
 {
